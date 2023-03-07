@@ -42,5 +42,6 @@ def main(p1, p2):
 if __name__ == "__main__":
     p1 = players.Human(1)
     # p2 = players.RandomChoice(2)
-    p2 = players.PerfectPercentage(2)
+    # p2 = players.PerfectPercentage(2)
+    p2 = players.LinearWeight(2)
     main(p1, p2)

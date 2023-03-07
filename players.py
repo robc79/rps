@@ -71,3 +71,30 @@ class PerfectPercentage(Player):
             their_choice = self._history[idx][1]
             choice = self.__class__.BEATEN_BY[their_choice]
         return choice
+
+
+class LinearWeight(Player):
+    """ Computer player that linearly weights the past opponents choices. """
+    BEATEN_BY = {
+        ROCK: PAPER,
+        PAPER: SCISSORS,
+        SCISSORS: ROCK
+    }
+
+
+    def __init__(self, id):
+        super().__init__(id)
+
+
+    def choose(self):
+        if len(self._history) == 0:
+            choice = random.randint(1,3)
+        else:
+            weighted_outcomes = [(i / len(self._history), o) for i, o in enumerate(self._history)]
+            totals = { ROCK: 0, PAPER: 0, SCISSORS: 0 }
+            totals[ROCK] = sum([w for (w,o) in weighted_outcomes if o[1] == ROCK])
+            totals[PAPER] = sum([w for (w,o) in weighted_outcomes if o[1] == PAPER])
+            totals[SCISSORS] = sum([w for (w,o) in weighted_outcomes if o[1] == SCISSORS])
+            their_choice = max(totals, key=totals.get)
+            choice = self.__class__.BEATEN_BY[their_choice]
+        return choice
